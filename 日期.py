@@ -20,8 +20,6 @@ sumYear=0
 sumMonth=0
 for i in range(2000,year):
     sumYear+=yearNumbers(isLeap(i))
-if month==1:
-    suMnth=0
 else:
     for j in range(0, month-1):
         sumMonth += int(monthNumbers(isLeap(year), j))
