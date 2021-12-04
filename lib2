@@ -1,0 +1,28 @@
+import requests
+import re
+
+searchId=input("请输入recordId:")
+
+url="https://findcumt.libsp.com/find/physical/groupitems"
+
+data = {
+    "isUnify": "true",
+    "recordId":searchId
+    }
+
+head = {
+    "groupCode":"200069",
+    "Referer":"https://findcumt.libsp.com/"
+}
+
+result = requests.post(url, json=data, headers=head)
+
+obj = re.compile(r'"barcode":"(?P<barcodes>.*?)".*?'
+                 r'"locationName":"(?P<locationNames>.*?)".*?'
+                 r'"processType":"(?P<processTypes>.*?)"', re.S)
+book_datas = obj.finditer(result.text)
+for book_data in book_datas:
+    print(f'条码号：{book_data.group("barcodes")}')
+    print(f'馆藏地：{book_data.group("locationNames")}')
+    print(f'书刊状态：{book_data.group("processTypes")}')
+print("Over!")
